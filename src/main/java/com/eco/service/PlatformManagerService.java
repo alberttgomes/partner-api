@@ -1,7 +1,7 @@
 package com.eco.service;
 
 import com.eco.exception.PlatformManagerNotFoundException;
-import com.eco.exception.UnableToCreateNewPlatformManagerException;
+import com.eco.exception.UnableToProcessPlatformManagerException;
 import com.eco.exception.UnableToProcessBenefitException;
 import com.eco.exception.UnableToProcessPlanException;
 import com.eco.model.Benefit;
@@ -24,7 +24,7 @@ public interface PlatformManagerService {
 
      PlatformManager createNewPlatformManager(
              String email, String userNameManager, String password, boolean hasPermission)
-        throws UnableToCreateNewPlatformManagerException;
+        throws UnableToProcessPlatformManagerException;
 
     Plan createNewPlan(
             Date dateOfExpiration, Date dateOfStart, int percent, String planName,

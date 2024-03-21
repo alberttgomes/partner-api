@@ -2,7 +2,7 @@ package com.eco.controler;
 
 import com.eco.dto.BenefitDTO;
 import com.eco.dto.PlatformManagerDTO;
-import com.eco.exception.UnableToCreateNewPlatformManagerException;
+import com.eco.exception.UnableToProcessPlatformManagerException;
 import com.eco.model.Benefit;
 import com.eco.model.Plan;
 import com.eco.model.PlatformManager;
@@ -23,9 +23,18 @@ import java.util.List;
  * @author Albert Gomes Cabral
  */
 @RestController
-@CrossOrigin("http://localhost:8080")
+@CrossOrigin({"http://localhost:8080", "http://localhost:8082"})
 public class PlatformManagerController {
-    @DeleteMapping(value = "/partner-platform/${platformManagerId}/${planId}/delete")
+    @DeleteMapping(value = "/partner-platform/${platformManagerId}/delete-benefit")
+    public ResponseEntity.BodyBuilder deleteBenefitMapping(
+            long benefitId, String userNameManager, String password) {
+
+        _platformManagerService.deleteBenefit(userNameManager, password, benefitId);
+
+        return ResponseEntity.status(HttpStatus.OK);
+    }
+
+    @DeleteMapping(value = "/partner-platform/${platformManagerId}/delete-plan")
     public ResponseEntity.BodyBuilder deletePlanMapping(
             long planId, String userNameManager, String password) {
 
@@ -70,7 +79,7 @@ public class PlatformManagerController {
     @PostMapping(value = "/partner-platform/create-new-manager")
     public ResponseEntity<PlatformManager> postPlatformManagerMapping(
             String email, String userNameManager, String password, boolean hasPermission)
-        throws UnableToCreateNewPlatformManagerException {
+        throws UnableToProcessPlatformManagerException {
 
         PlatformManager platformManager = _platformManagerService.createNewPlatformManager(
                 email, userNameManager, password, hasPermission);
@@ -91,7 +100,7 @@ public class PlatformManagerController {
                 benefitName, benefitExpired, benefitResource, userName, password);
 
         if (!benefit.getBenefitExpired()) {
-            return new ResponseEntity<>(benefit ,HttpStatus.CREATED);
+            return new ResponseEntity<>(benefit, HttpStatus.CREATED);
         }
 
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);

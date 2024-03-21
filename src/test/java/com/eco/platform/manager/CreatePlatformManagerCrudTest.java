@@ -1,11 +1,10 @@
 package com.eco.platform.manager;
 
 import com.eco.controler.PlatformManagerController;
-import com.eco.exception.UnableToCreateNewPlatformManagerException;
+import com.eco.exception.UnableToProcessPlatformManagerException;
 import com.eco.model.PlatformManager;
 import com.eco.service.PlatformManagerService;
 import com.eco.util.PlatformManagerUtil;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +27,7 @@ public class CreatePlatformManagerCrudTest {
     private static final String _PASSWORD_MOCK = "familyOfTheKillers";
 
     @Test
-    public void createNewPlatformManagerControllerTest() throws UnableToCreateNewPlatformManagerException {
+    public void createNewPlatformManagerControllerTest() throws UnableToProcessPlatformManagerException {
         ResponseEntity<PlatformManager> platformManager =
                 platformManagerController.postPlatformManagerMapping(
                         _EMAIL_MOCK, _USER_NAME_MANAGER_MOCK, _PASSWORD_MOCK, true);
@@ -53,7 +52,7 @@ public class CreatePlatformManagerCrudTest {
     }
 
     @Test
-    public void createNewPlatformManagerServiceTest() throws UnableToCreateNewPlatformManagerException {
+    public void createNewPlatformManagerServiceTest() throws UnableToProcessPlatformManagerException {
         // create the new platform's manager using the mock date
         PlatformManager platformManager = platformManagerService.createNewPlatformManager(
                 _EMAIL_MOCK, _USER_NAME_MANAGER_MOCK, _PASSWORD_MOCK, true);

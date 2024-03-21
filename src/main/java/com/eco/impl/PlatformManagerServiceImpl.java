@@ -1,7 +1,7 @@
 package com.eco.impl;
 
 import com.eco.exception.PlatformManagerNotFoundException;
-import com.eco.exception.UnableToCreateNewPlatformManagerException;
+import com.eco.exception.UnableToProcessPlatformManagerException;
 import com.eco.exception.UnableToProcessBenefitException;
 import com.eco.exception.UnableToProcessPlanException;
 import com.eco.model.Benefit;
@@ -73,7 +73,7 @@ public class PlatformManagerServiceImpl implements PlatformManagerService {
     @Override
     public PlatformManager createNewPlatformManager(
             @Nullable String email, @Nullable String userNameManager, @Nullable String password,
-            boolean hasPermission) throws UnableToCreateNewPlatformManagerException {
+            boolean hasPermission) throws UnableToProcessPlatformManagerException {
 
         try {
             PlatformManager platformManager = new PlatformManager();
@@ -89,12 +89,12 @@ public class PlatformManagerServiceImpl implements PlatformManagerService {
                 return platformManager;
             }
             else {
-                throw new UnableToCreateNewPlatformManagerException(
+                throw new UnableToProcessPlatformManagerException(
                         "Error while create the platform's manager");
             }
         }
-        catch (UnableToCreateNewPlatformManagerException exception) {
-                throw new UnableToCreateNewPlatformManagerException(
+        catch (UnableToProcessPlatformManagerException exception) {
+                throw new UnableToProcessPlatformManagerException(
                         "Unable to create a new platform's manager ", exception);
         }
     }
@@ -205,7 +205,8 @@ public class PlatformManagerServiceImpl implements PlatformManagerService {
 
         try {
             Optional<PlatformManager> platformManagerOptional =
-                    _platformManagerPersistence.findByUserNameAdminAndPassword(userNameAdmin, password);
+                    _platformManagerPersistence.findByUserNameAdminAndPassword(
+                            userNameAdmin, password);
 
             if (platformManagerOptional.isPresent()) {
                 Optional<Benefit> benefitOptional = _benefitPersistence.findById(benefitId);
