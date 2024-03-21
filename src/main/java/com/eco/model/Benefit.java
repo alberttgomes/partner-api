@@ -15,10 +15,6 @@ public class Benefit implements Serializable {
         return _benefitId;
     }
 
-    public void setBenefitId(Long benefitId) {
-        this._benefitId = benefitId;
-    }
-
     public boolean getBenefitExpired() {
         return _benefitExpired;
     }
@@ -43,14 +39,6 @@ public class Benefit implements Serializable {
         this._benefitResource = benefitResource;
     }
 
-    public long getPlanPk() {
-        return _planPk;
-    }
-
-    public void setPlanPk(long planPk) {
-        this._planPk = planPk;
-    }
-
     @Id
     @Column
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -61,6 +49,4 @@ public class Benefit implements Serializable {
     private String _benefitName;
     @Column(nullable = false)
     private Object _benefitResource;
-    @Column(nullable = false)
-    private long _planPk;
 }

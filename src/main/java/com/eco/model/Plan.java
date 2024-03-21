@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 
 import java.io.Serializable;
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -11,20 +12,29 @@ import java.util.List;
  */
 @Entity
 public class Plan implements Serializable {
-    public Long getPlanId() {
-        return planId;
+    public List<Benefit> getAvailableBenefitList() {
+        List<Benefit> benefitList = new ArrayList<>();
+
+        for (Benefit benefit : _benefit) {
+            for (long benefitIdPk : _benefitPkArray) {
+                if (benefit.getBenefitId() == benefitIdPk) {
+                    benefitList.add(benefit);
+                }
+            }
+        }
+        return benefitList;
     }
 
-    public void setPlanId(Long planId) {
-        this.planId = planId;
+    public Long getPlanId() {
+        return _planId;
     }
 
     public long[] getBenefitsPk() {
-        return _benefitsPk;
+        return _benefitPkArray;
     }
 
     public void setBenefitsPk(long[] benefitsPk) {
-        this._benefitsPk = benefitsPk;
+        this._benefitPkArray = benefitsPk;
     }
 
     public Date getDateOfExpiration() {
@@ -85,9 +95,9 @@ public class Plan implements Serializable {
     @Id
     @Column
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long planId;
+    private Long _planId;
     @Column
-    private long[] _benefitsPk;
+    private long[] _benefitPkArray;
     @Column(nullable = false)
     private Date _dateOfExpiration;
     @Column(nullable = false)

@@ -1,6 +1,6 @@
 package com.eco.util;
 
-import com.eco.model.PlatformAdmin;
+import com.eco.model.PlatformManager;
 import com.google.gson.Gson;
 import org.springframework.stereotype.Component;
 
@@ -12,7 +12,7 @@ import java.io.InputStreamReader;
  */
 @Component
 public class PlatformLoadPropUtil {
-    public static PlatformAdmin loadPlatformAdminProps() throws Exception {
+    public static PlatformManager loadPlatformAdminProps() throws Exception {
         ClassLoader classLoader =
                 PlatformLoadPropUtil.class.getClassLoader();
 
@@ -26,7 +26,7 @@ public class PlatformLoadPropUtil {
             Gson gson = new Gson();
 
             return gson.fromJson(
-                    inputStreamReader, PlatformAdmin.class);
+                    inputStreamReader, PlatformManager.class);
         }
         else {
             throw new Exception("File not found. ");

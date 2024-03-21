@@ -9,7 +9,7 @@ import com.eco.exception.*;
 import com.eco.model.Address;
 import com.eco.model.Partnership;
 import com.eco.model.Plan;
-import com.eco.model.PlatformAdmin;
+import com.eco.model.PlatformManager;
 import com.eco.persistence.AddressPersistence;
 import com.eco.persistence.PartnershipPersistence;
 import com.eco.persistence.PlanPersistence;
@@ -136,13 +136,13 @@ public class PartnershipServiceImpl implements PartnershipService {
             @Nullable String userNameAdmin, @Nullable String password, boolean isActive)
         throws PartnershipPermissionDeniedException {
 
-        Optional<PlatformAdmin> optionalPlatformAdmin =
+        Optional<PlatformManager> optionalPlatformManager =
                 _platformAdminPersistence.findByUserNameAdminAndPassword(userNameAdmin, password);
 
         List<Partnership> partnershipGreenList = new ArrayList<>();
 
-        if (optionalPlatformAdmin.isPresent() &&
-                optionalPlatformAdmin.get().getHasPermission()) {
+        if (optionalPlatformManager.isPresent() &&
+                optionalPlatformManager.get().getHasPermission()) {
 
             List<Partnership> partnershipList =
                     _partnershipPersistence.findAll();
@@ -170,10 +170,10 @@ public class PartnershipServiceImpl implements PartnershipService {
             @Nullable String userNameAdmin, @Nullable String password)
         throws PartnershipPermissionDeniedException {
 
-        Optional<PlatformAdmin> partnershipOptional =
-                _platformAdminPersistence.login("", userNameAdmin, password);
+        Optional<PlatformManager> platformManagerOptional =
+                _platformAdminPersistence.findByUserNameAdminAndPassword(userNameAdmin, password);
 
-        if (partnershipOptional.isPresent()) {
+        if (platformManagerOptional.isPresent()) {
             return _partnershipPersistence.findAll();
         }
         else {
@@ -204,9 +204,8 @@ public class PartnershipServiceImpl implements PartnershipService {
                 return true;
             }
         }
-        catch (PartnershipMemberNotFoundException partnershipMemberNotFoundException) {
-            throw new PartnershipMemberNotFoundException(
-                    partnershipMemberNotFoundException);
+        catch (PartnershipMemberNotFoundException throwable) {
+            throw new PartnershipMemberNotFoundException(throwable);
         }
 
         return false;
