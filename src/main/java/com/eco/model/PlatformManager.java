@@ -4,29 +4,21 @@ import jakarta.persistence.*;
 
 import java.io.Serializable;
 
+/**
+ * @author Albert Gomes Cabral
+ */
 @Entity
-@Table(
-        uniqueConstraints = {
-                @UniqueConstraint(columnNames = {
-                        "userNameAdmin"," email"
-                })
-        }
-)
-public class PlatformAdmin implements Serializable {
+public class PlatformManager implements Serializable {
     public Long getPlatformAdminId() {
-        return platformAdminId;
-    }
-
-    public void setPlatformAdminId(Long platformAdminId) {
-        this.platformAdminId = platformAdminId;
+        return _platformAdminId;
     }
 
     public String getEmail() {
-        return email;
+        return _email;
     }
 
     public void setEmail(String email) {
-        this.email = email;
+        this._email = email;
     }
 
     public boolean getHasPermission() {
@@ -52,23 +44,16 @@ public class PlatformAdmin implements Serializable {
     public void setUserNameAdmin(String userNameAdmin) {
         this._userNameAdmin = userNameAdmin;
     }
-    
-    public PlatformAdmin findByLogin(String userNameAdmin, String password) {
-        if (_userNameAdmin.equals(userNameAdmin) && _password.equals(password)) {
-            return this;
-        }
-        return null;
-    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long platformAdminId;
-    @Column(nullable = false, length = 50)
-    private String email;
+    private Long _platformAdminId;
+    @Column(nullable = false, length = 50, unique = true)
+    private String _email;
     @Column(nullable = false)
     private boolean _hasPermission;
     @Column(nullable = false, length = 15)
     private String _password;
-    @Column(nullable = false, length = 15)
+    @Column(nullable = false, length = 15, unique = true)
     private String _userNameAdmin;
 }
