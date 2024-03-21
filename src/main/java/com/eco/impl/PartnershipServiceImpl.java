@@ -13,7 +13,7 @@ import com.eco.model.PlatformManager;
 import com.eco.persistence.AddressPersistence;
 import com.eco.persistence.PartnershipPersistence;
 import com.eco.persistence.PlanPersistence;
-import com.eco.persistence.PlatformAdminPersistence;
+import com.eco.persistence.PlatformManagerPersistence;
 import com.eco.service.PartnershipService;
 import org.springframework.stereotype.Component;
 
@@ -137,7 +137,7 @@ public class PartnershipServiceImpl implements PartnershipService {
         throws PartnershipPermissionDeniedException {
 
         Optional<PlatformManager> optionalPlatformManager =
-                _platformAdminPersistence.findByUserNameAdminAndPassword(userNameAdmin, password);
+                _platformManagerPersistence.findByUserNameAdminAndPassword(userNameAdmin, password);
 
         List<Partnership> partnershipGreenList = new ArrayList<>();
 
@@ -171,7 +171,7 @@ public class PartnershipServiceImpl implements PartnershipService {
         throws PartnershipPermissionDeniedException {
 
         Optional<PlatformManager> platformManagerOptional =
-                _platformAdminPersistence.findByUserNameAdminAndPassword(userNameAdmin, password);
+                _platformManagerPersistence.findByUserNameAdminAndPassword(userNameAdmin, password);
 
         if (platformManagerOptional.isPresent()) {
             return _partnershipPersistence.findAll();
@@ -371,5 +371,5 @@ public class PartnershipServiceImpl implements PartnershipService {
     private AddressPersistence _addressPersistence;
     private PartnershipPersistence _partnershipPersistence;
     private PlanPersistence _planPersistence;
-    private PlatformAdminPersistence _platformAdminPersistence;
+    private PlatformManagerPersistence _platformManagerPersistence;
 }

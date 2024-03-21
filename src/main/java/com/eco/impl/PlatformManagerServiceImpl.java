@@ -1,6 +1,7 @@
 package com.eco.impl;
 
-import com.eco.exception.PlatformAdminNotFoundException;
+import com.eco.exception.PlatformManagerNotFoundException;
+import com.eco.exception.UnableToCreateNewPlatformManagerException;
 import com.eco.exception.UnableToProcessBenefitException;
 import com.eco.exception.UnableToProcessPlanException;
 import com.eco.model.Benefit;
@@ -8,8 +9,9 @@ import com.eco.model.Plan;
 import com.eco.model.PlatformManager;
 import com.eco.persistence.BenefitPersistence;
 import com.eco.persistence.PlanPersistence;
-import com.eco.persistence.PlatformAdminPersistence;
-import com.eco.service.PlatformAdminService;
+import com.eco.persistence.PlatformManagerPersistence;
+import com.eco.service.PlatformManagerService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Nullable;
@@ -19,16 +21,17 @@ import java.util.*;
  * @author Albert Gomes Cabral
  */
 @Component
-public class PlatformAdminServiceImpl implements PlatformAdminService {
+public class PlatformManagerServiceImpl implements PlatformManagerService {
     @Override
-    public Benefit crateNewBenefit(
+    public Benefit createNewBenefit(
             String benefitName, boolean benefitExpired, Object benefitResource,
             String userNameAdmin, String password)
-        throws PlatformAdminNotFoundException, UnableToProcessPlanException {
+        throws PlatformManagerNotFoundException, UnableToProcessPlanException {
 
         try {
             Optional<PlatformManager> platformManagerOptional =
-                    _platformAdminPersistence.findByUserNameAdminAndPassword(userNameAdmin, password);
+                    _platformManagerPersistence.findByUserNameAdminAndPassword(
+                            userNameAdmin, password);
 
             if (platformManagerOptional.isPresent()) {
                 boolean verifyIfBenefitNameAlreadyExists =
@@ -53,13 +56,13 @@ public class PlatformAdminServiceImpl implements PlatformAdminService {
                 }
             }
         }
-        catch (PlatformAdminNotFoundException | UnableToProcessPlanException throwable) {
+        catch (PlatformManagerNotFoundException | UnableToProcessPlanException throwable) {
             if (throwable instanceof UnableToProcessPlanException) {
                 throw new UnableToProcessPlanException(
                         "Unable to create the benefit ", throwable);
             }
             else {
-                throw new PlatformAdminNotFoundException(
+                throw new PlatformManagerNotFoundException(
                         "The user " + userNameAdmin + " haven't permission to " +
                                 "create benefit or the user wasn't found. ", throwable);
             }
@@ -68,15 +71,44 @@ public class PlatformAdminServiceImpl implements PlatformAdminService {
     }
 
     @Override
+    public PlatformManager createNewPlatformManager(
+            @Nullable String email, @Nullable String userNameManager, @Nullable String password,
+            boolean hasPermission) throws UnableToCreateNewPlatformManagerException {
+
+        try {
+            PlatformManager platformManager = new PlatformManager();
+
+            platformManager.setEmail(email);
+            platformManager.setPassword(password);
+            platformManager.setUserNameAdmin(userNameManager);
+            platformManager.setHasPermission(hasPermission);
+
+            platformManager = _platformManagerPersistence.save(platformManager);
+
+            if (platformManager.getPlatformAdminId() >= 0) {
+                return platformManager;
+            }
+            else {
+                throw new UnableToCreateNewPlatformManagerException(
+                        "Error while create the platform's manager");
+            }
+        }
+        catch (UnableToCreateNewPlatformManagerException exception) {
+                throw new UnableToCreateNewPlatformManagerException(
+                        "Unable to create a new platform's manager ", exception);
+        }
+    }
+
+    @Override
     public Plan createNewPlan(
             Date dateOfExpiration, Date dateOfStart, int percent,
             String planName, String price, boolean statusPlan, List<String> benefitNameList,
             @Nullable String userNameAdmin, @Nullable String password)
-        throws PlatformAdminNotFoundException, UnableToProcessPlanException {
+        throws PlatformManagerNotFoundException, UnableToProcessPlanException {
 
         try {
             Optional<PlatformManager> platformManagerOptional =
-                    _platformAdminPersistence.findByUserNameAdminAndPassword(
+                    _platformManagerPersistence.findByUserNameAdminAndPassword(
                             userNameAdmin, password);
 
             PlatformManager platformManager;
@@ -85,7 +117,7 @@ public class PlatformAdminServiceImpl implements PlatformAdminService {
                     platformManager = platformManagerOptional.get();
             }
             else {
-                throw new PlatformAdminNotFoundException(
+                throw new PlatformManagerNotFoundException(
                         "User admin with the username " + userNameAdmin +
                                 " wasn't found.", new Throwable());
             }
@@ -153,13 +185,13 @@ public class PlatformAdminServiceImpl implements PlatformAdminService {
 
             return plan;
         }
-        catch (UnableToProcessPlanException | PlatformAdminNotFoundException throwable) {
+        catch (UnableToProcessPlanException | PlatformManagerNotFoundException throwable) {
             if (throwable instanceof UnableToProcessPlanException) {
                 throw new UnableToProcessPlanException(
                         "Unable to create plan " + planName, throwable);
             }
             else {
-                throw new PlatformAdminNotFoundException(
+                throw new PlatformManagerNotFoundException(
                         "Unable to process the partner's admin with the username " +
                                 userNameAdmin, throwable);
             }
@@ -169,11 +201,11 @@ public class PlatformAdminServiceImpl implements PlatformAdminService {
     @Override
     public void deleteBenefit(
             @Nullable String userNameAdmin, @Nullable String password, long benefitId)
-        throws PlatformAdminNotFoundException {
+        throws PlatformManagerNotFoundException {
 
         try {
             Optional<PlatformManager> platformManagerOptional =
-                    _platformAdminPersistence.findByUserNameAdminAndPassword(userNameAdmin, password);
+                    _platformManagerPersistence.findByUserNameAdminAndPassword(userNameAdmin, password);
 
             if (platformManagerOptional.isPresent()) {
                 Optional<Benefit> benefitOptional = _benefitPersistence.findById(benefitId);
@@ -181,21 +213,21 @@ public class PlatformAdminServiceImpl implements PlatformAdminService {
                 benefitOptional.ifPresent(benefit -> _benefitPersistence.delete(benefit));
             }
         }
-        catch (PlatformAdminNotFoundException platformAdminNotFoundException) {
-            throw new PlatformAdminNotFoundException(
+        catch (PlatformManagerNotFoundException platformManagerNotFoundException) {
+            throw new PlatformManagerNotFoundException(
                     "Unable to delete benefit with the primary key " + benefitId,
-                        platformAdminNotFoundException);
+                    platformManagerNotFoundException);
         }
     }
 
     @Override
     public void deletePlan(
             long planId, String userNameManger, String password)
-        throws PlatformAdminNotFoundException, UnableToProcessPlanException {
+        throws PlatformManagerNotFoundException, UnableToProcessPlanException {
 
         try {
             Optional<PlatformManager> platformManagerOptional =
-                    _platformAdminPersistence.findByUserNameAdminAndPassword(
+                    _platformManagerPersistence.findByUserNameAdminAndPassword(
                             userNameManger, password);
 
             if (platformManagerOptional.isPresent()) {
@@ -217,14 +249,14 @@ public class PlatformAdminServiceImpl implements PlatformAdminService {
                 }
             }
         }
-        catch (PlatformAdminNotFoundException | UnableToProcessPlanException throwable) {
+        catch (PlatformManagerNotFoundException | UnableToProcessPlanException throwable) {
             if (throwable instanceof UnableToProcessPlanException) {
                 throw new UnableToProcessPlanException(
                         "Unable to delete the plan with the primary key " +
                                 planId, throwable);
             }
             else {
-                throw new PlatformAdminNotFoundException(
+                throw new PlatformManagerNotFoundException(
                         "Unable to get permission to admin " + userNameManger, throwable);
             }
         }
@@ -233,11 +265,11 @@ public class PlatformAdminServiceImpl implements PlatformAdminService {
     @Override
     public PlatformManager getPlatformAdmin(
             @Nullable String userNameManager, @Nullable String password)
-        throws PlatformAdminNotFoundException {
+        throws PlatformManagerNotFoundException {
 
         try {
             Optional<PlatformManager> platformAdminOptional =
-                    _platformAdminPersistence.findByUserNameAdminAndPassword(
+                    _platformManagerPersistence.findByUserNameAdminAndPassword(
                             userNameManager, password);
 
             if (platformAdminOptional.isPresent()) {
@@ -245,8 +277,8 @@ public class PlatformAdminServiceImpl implements PlatformAdminService {
                 return platformAdminOptional.get();
             }
         }
-        catch (PlatformAdminNotFoundException throwable) {
-            throw new PlatformAdminNotFoundException(
+        catch (PlatformManagerNotFoundException throwable) {
+            throw new PlatformManagerNotFoundException(
                     "Unable to get the platform's admin ", throwable);
         }
         return null;
@@ -256,7 +288,7 @@ public class PlatformAdminServiceImpl implements PlatformAdminService {
     public Benefit updateBenefit(
             Benefit newBenefit, long benefitId,
             @Nullable String userNameAdmin, @Nullable String password)
-        throws PlatformAdminNotFoundException, UnableToProcessBenefitException {
+        throws PlatformManagerNotFoundException, UnableToProcessBenefitException {
 
         try {
             boolean verify = _verifyPlatformAdmin(userNameAdmin, password);
@@ -289,14 +321,14 @@ public class PlatformAdminServiceImpl implements PlatformAdminService {
                 }
             }
         }
-        catch (UnableToProcessBenefitException | PlatformAdminNotFoundException throwable) {
+        catch (UnableToProcessBenefitException | PlatformManagerNotFoundException throwable) {
             if (throwable instanceof  UnableToProcessBenefitException) {
                 throw new UnableToProcessBenefitException(
                         "Unable to update the benefit with the primary key "
                                 + benefitId, throwable);
             }
             else {
-                throw new PlatformAdminNotFoundException(
+                throw new PlatformManagerNotFoundException(
                         "Unable to process user " + userNameAdmin, throwable);
             }
         }
@@ -306,15 +338,15 @@ public class PlatformAdminServiceImpl implements PlatformAdminService {
     @Override
     public Plan updatePlan(
             Plan newPlan, long planPk, String userNameAdmin, String password)
-        throws PlatformAdminNotFoundException, UnableToProcessPlanException {
+        throws PlatformManagerNotFoundException, UnableToProcessPlanException {
 
         try {
            Optional<PlatformManager> platformManagerOptional =
-                   _platformAdminPersistence.findByUserNameAdminAndPassword(
+                   _platformManagerPersistence.findByUserNameAdminAndPassword(
                            userNameAdmin, password);
 
            if (platformManagerOptional.isEmpty()) {
-               throw new PlatformAdminNotFoundException(
+               throw new PlatformManagerNotFoundException(
                        "The user " + userNameAdmin + " not found. ", new Throwable());
            }
 
@@ -346,14 +378,14 @@ public class PlatformAdminServiceImpl implements PlatformAdminService {
                return _planPersistence.save(plan);
            }
         }
-        catch (PlatformAdminNotFoundException | UnableToProcessPlanException throwable) {
+        catch (PlatformManagerNotFoundException | UnableToProcessPlanException throwable) {
             if (throwable instanceof UnableToProcessPlanException) {
                 throw new UnableToProcessPlanException(
                         "Unable to process plan with the primary key "
                                 + planPk, throwable);
             }
             else {
-                throw new PlatformAdminNotFoundException(
+                throw new PlatformManagerNotFoundException(
                         "Unable to update the plan user " + userNameAdmin +
                                 " not allowed. ", throwable);
             }
@@ -376,21 +408,36 @@ public class PlatformAdminServiceImpl implements PlatformAdminService {
 
     private boolean _verifyPlatformAdmin(
             @Nullable String userNameManager, @Nullable String password)
-        throws PlatformAdminNotFoundException {
+        throws PlatformManagerNotFoundException {
 
         Optional<PlatformManager> platformManagerOptional =
-                _platformAdminPersistence.findByUserNameAdminAndPassword(
+                _platformManagerPersistence.findByUserNameAdminAndPassword(
                         userNameManager, password);
 
         if (platformManagerOptional.isEmpty()) {
-            throw new PlatformAdminNotFoundException(
+            throw new PlatformManagerNotFoundException(
                     "The user " + userNameManager + " not found. ", new Throwable());
         }
 
         return true;
     }
 
+    @Autowired
+    public void setBenefitPersistence(BenefitPersistence benefitPersistence) {
+        this._benefitPersistence = benefitPersistence;
+    }
+
+    @Autowired
+    public void setPlatformManagerPersistence(PlatformManagerPersistence platformManagerPersistence) {
+        this._platformManagerPersistence = platformManagerPersistence;
+    }
+
+    @Autowired
+    public void setPlanPersistence(PlanPersistence planPersistence) {
+        this._planPersistence = planPersistence;
+    }
+
     private BenefitPersistence _benefitPersistence;
-    private PlatformAdminPersistence _platformAdminPersistence;
+    private PlatformManagerPersistence _platformManagerPersistence;
     private PlanPersistence _planPersistence;
 }

@@ -3,25 +3,28 @@ package com.eco.dto;
 import lombok.Data;
 import org.springframework.data.relational.core.mapping.Embedded;
 
+import java.util.Date;
+
 /**
  * @author Albert Gomes Cabral
  */
 @Data
-public class PartnershipDTO {
+public class PlanDto {
 
     @Embedded.Nullable
-    public String email;
+    public Date dateOfExpired;
 
     @Embedded.Nullable
-    public String firstName;
+    public Date dateOfStart;
+
+    public int percent;
 
     @Embedded.Nullable
-    public String middleName;
+    public String planName;
 
     @Embedded.Nullable
-    public String lastName;
+    public String price;
 
-    @Embedded.Nullable
-    public String password;
+    public boolean statusPlan;
 
 }

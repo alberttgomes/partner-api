@@ -11,10 +11,10 @@ import java.io.InputStreamReader;
  * @author Albert Gomes Cabral
  */
 @Component
-public class PlatformLoadPropUtil {
-    public static PlatformManager loadPlatformAdminProps() throws Exception {
+public class PlatformManagerUtil {
+    public static PlatformManager loadPlatformManagerProperties() throws Exception {
         ClassLoader classLoader =
-                PlatformLoadPropUtil.class.getClassLoader();
+                PlatformManagerUtil.class.getClassLoader();
 
         InputStream inputStream =
                 classLoader.getResourceAsStream("platform-setup-wizard.json");
