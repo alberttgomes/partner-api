@@ -88,15 +88,12 @@ public class PlatformManagerServiceImpl implements PlatformManagerService {
             if (platformManager.getPlatformAdminId() >= 0) {
                 return platformManager;
             }
-            else {
-                throw new UnableToProcessPlatformManagerException(
-                        "Error while create the platform's manager");
-            }
         }
         catch (UnableToProcessPlatformManagerException exception) {
                 throw new UnableToProcessPlatformManagerException(
                         "Unable to create a new platform's manager ", exception);
         }
+        return null;
     }
 
     @Override

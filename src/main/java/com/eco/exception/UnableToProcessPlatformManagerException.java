@@ -3,7 +3,7 @@ package com.eco.exception;
 /**
  * @author Albert Gomes Cabral
  */
-public class UnableToProcessPlatformManagerException extends Exception {
+public class UnableToProcessPlatformManagerException extends RuntimeException {
     public UnableToProcessPlatformManagerException(String message) {
         super(message);
     }
