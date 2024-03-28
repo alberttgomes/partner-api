@@ -6,6 +6,9 @@ import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
+/**
+ * @author Albert Gomes Cabral
+ */
 @Repository
 public interface PlatformManagerPersistence extends JpaRepository<PlatformManager, Long> {
     Optional<PlatformManager> findByUserNameAdminAndPassword(String userNameAdmin, String password);

@@ -8,10 +8,10 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * @author Albert Gomes Cabral
+ */
 @Repository
 public interface PartnershipPersistence extends JpaRepository<Partnership, Long> {
     void delete(Optional<Partnership> partnership);
-
-    @Query(value = "select _firstName from Partnership where _status = ?1")
-    List<Partnership> getPartnershipActives(int status);
 }

@@ -13,8 +13,7 @@ import java.io.InputStreamReader;
 @Component
 public class PlatformManagerUtil {
     public static PlatformManager loadPlatformManagerProperties() throws Exception {
-        ClassLoader classLoader =
-                PlatformManagerUtil.class.getClassLoader();
+        ClassLoader classLoader = PlatformManagerUtil.class.getClassLoader();
 
         InputStream inputStream =
                 classLoader.getResourceAsStream("platform-setup-wizard.json");
