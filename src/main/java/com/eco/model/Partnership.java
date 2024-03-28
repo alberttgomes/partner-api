@@ -3,13 +3,15 @@ package com.eco.model;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
-import java.sql.Date;
 import java.util.List;
 
+/**
+ * @author Albert Gomes Cabral
+ */
 @Entity
 public class Partnership implements Serializable {
     public List<Address> getAddress() {
-        return _address;
+        return _addressList;
     }
 
     public long getPartnershipId() {
@@ -76,12 +78,33 @@ public class Partnership implements Serializable {
         this._middleName = middleName;
     }
 
+    public Notify getNotifyById(long notifyId) {
+        Notify result = null;
+
+        for (Notify notify : _notifyList) {
+            if (notify.getNotifyId() == notifyId) {
+                result = notify;
+
+                break;
+            }
+        }
+        return result;
+    }
+
+    public List<Notify> getNotifyList() {
+        return _notifyList;
+    }
+
     public String getPassword() {
         return _password;
     }
 
     public void setPassword(String password) {
         this._password = password;
+    }
+
+    public Plan getPlan() {
+        return _plan;
     }
 
     public String getPhone() {
@@ -102,14 +125,21 @@ public class Partnership implements Serializable {
 
     @OneToMany(
             targetEntity = Address.class,
-            mappedBy = "partnershipPk",
-            fetch = FetchType.LAZY
+            mappedBy = "_partnership",
+            cascade = CascadeType.ALL
     )
-    private List<Address> _address;
+    private List<Address> _addressList;
+
+    @OneToMany(
+            targetEntity = Notify.class,
+            mappedBy = "_partnership",
+            cascade = CascadeType.ALL
+    )
+    private List<Notify> _notifyList;
 
     @OneToOne(
             targetEntity = Plan.class,
-            mappedBy = "planId",
+            mappedBy = "_planId",
             fetch = FetchType.LAZY
     )
     private Plan _plan;

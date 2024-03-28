@@ -63,12 +63,11 @@ public class PartnershipServiceImpl implements PartnershipService {
 
                 assert address != null;
 
-                address = _createPartnershipAddress(
-                        result.getPartnershipId(), address);
+                Address resultAddress = _createPartnershipAddress(result, address);
 
-                if (address.getPartnershipPk() >= 0) {
+                if (resultAddress.getPartnership() != null) {
                     System.out.println("The address was created with success!! \n" +
-                            address.toString());
+                            resultAddress.toString());
                 }
 
                 return result;
@@ -171,7 +170,8 @@ public class PartnershipServiceImpl implements PartnershipService {
         throws PartnershipPermissionDeniedException {
 
         Optional<PlatformManager> platformManagerOptional =
-                _platformManagerPersistence.findByUserNameAdminAndPassword(userNameAdmin, password);
+                _platformManagerPersistence.findByUserNameAdminAndPassword(
+                        userNameAdmin, password);
 
         if (platformManagerOptional.isPresent()) {
             return _partnershipPersistence.findAll();
@@ -341,12 +341,10 @@ public class PartnershipServiceImpl implements PartnershipService {
         return updated;
     }
 
-    private Address _createPartnershipAddress(long partnershipPk, Address address) {
-        address.setPartnershipPk(partnershipPk);
+    private Address _createPartnershipAddress(Partnership partnership, Address address) {
+        address.setPartnership(partnership);
 
-        _addressPersistence.save(address);
-
-        return _addressPersistence.getReferenceById(address.getAddressId());
+        return _addressPersistence.save(address);
     }
 
     private Date _dateGenerated() {

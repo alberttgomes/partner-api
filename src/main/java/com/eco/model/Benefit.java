@@ -4,12 +4,10 @@ import jakarta.persistence.*;
 
 import java.io.Serializable;
 
+/**
+ * @author Albert Gomes Cabral
+ */
 @Entity
-@Table(
-    uniqueConstraints = {
-        @UniqueConstraint(columnNames = "benefitName")
-    }
-)
 public class Benefit implements Serializable {
     public Long getBenefitId() {
         return _benefitId;
@@ -38,6 +36,18 @@ public class Benefit implements Serializable {
     public void setBenefitResource(Object benefitResource) {
         this._benefitResource = benefitResource;
     }
+
+    public Plan getPlan() {
+        return _plan;
+    }
+
+    public void setPlan(Plan plan) {
+        this._plan = plan;
+    }
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(referencedColumnName = "_planId")
+    private Plan _plan;
 
     @Id
     @Column

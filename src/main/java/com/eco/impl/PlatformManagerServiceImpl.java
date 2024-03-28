@@ -39,9 +39,9 @@ public class PlatformManagerServiceImpl implements PlatformManagerService {
 
                 if (verifyIfBenefitNameAlreadyExists) {
                     throw new UnableToProcessPlanException(
-                            "Unable to create the benefit with the name " + benefitName + ". " +
-                                    "Already exist a benefit with this name, the benefit name" +
-                                    " should be unique.");
+                            "Unable to create the benefit with the name " + benefitName +
+                                    "Already exist a benefit with this name, " +
+                                    "the benefit name for a benefit should be unique.");
                 }
                 else {
                     Benefit benefit = new Benefit();
@@ -83,10 +83,10 @@ public class PlatformManagerServiceImpl implements PlatformManagerService {
             platformManager.setUserNameAdmin(userNameManager);
             platformManager.setHasPermission(hasPermission);
 
-            platformManager = _platformManagerPersistence.save(platformManager);
+            PlatformManager result = _platformManagerPersistence.save(platformManager);
 
-            if (platformManager.getPlatformAdminId() >= 0) {
-                return platformManager;
+            if (result.getPlatformAdminId() >= 0) {
+                return result;
             }
         }
         catch (UnableToProcessPlatformManagerException exception) {

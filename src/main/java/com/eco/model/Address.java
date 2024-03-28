@@ -38,12 +38,12 @@ public class Address implements Serializable {
         this._district = district;
     }
 
-    public Long getPartnershipPk() {
-        return _partnershipPk;
+    public Partnership getPartnership() {
+        return _partnership;
     }
 
-    public void setPartnershipPk(Long partnershipPk) {
-        this._partnershipPk = partnershipPk;
+    public void setPartnership(Partnership partnership) {
+        this._partnership = partnership;
     }
 
     public int getNumber() {
@@ -68,6 +68,10 @@ public class Address implements Serializable {
                 _district + "\n " + _country + " - " + _city;
     }
 
+    @ManyToOne(targetEntity = Partnership.class, fetch = FetchType.LAZY)
+    @JoinColumn(name = "_partnershipId")
+    private Partnership _partnership;
+
     @Id
     @Column
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -78,8 +82,6 @@ public class Address implements Serializable {
     private String _country;
     @Column(nullable = false, length = 40)
     private String _district;
-    @Column(nullable = false)
-    private Long _partnershipPk;
     @Column(nullable = false)
     private int _number;
     @Column(nullable = false, length = 50)

@@ -15,7 +15,7 @@ public class Plan implements Serializable {
     public List<Benefit> getAvailableBenefitList() {
         List<Benefit> benefitList = new ArrayList<>();
 
-        for (Benefit benefit : _benefit) {
+        for (Benefit benefit : _benefitList) {
             for (long benefitIdPk : _benefitPkArray) {
                 if (benefit.getBenefitId() == benefitIdPk) {
                     benefitList.add(benefit);
@@ -53,6 +53,14 @@ public class Plan implements Serializable {
         this._dateOfStart = dateOfStart;
     }
 
+    public Partnership getPartnership() {
+        return _partnership;
+    }
+
+    public void setPartnership(Partnership partnership) {
+        this._partnership = partnership;
+    }
+
     public int getPercent() {
         return _percent;
     }
@@ -87,10 +95,14 @@ public class Plan implements Serializable {
 
     @OneToMany(
             targetEntity = Benefit.class,
-            mappedBy = "benefitId",
-            fetch = FetchType.LAZY
+            mappedBy = "_plan",
+            cascade = CascadeType.ALL
     )
-    private List<Benefit> _benefit;
+    private List<Benefit> _benefitList;
+
+    @ManyToOne(targetEntity = Partnership.class, fetch = FetchType.LAZY)
+    @JoinColumn(name = "_partnershipId")
+    private Partnership _partnership;
 
     @Id
     @Column
