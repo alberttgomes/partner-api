@@ -1,27 +1,38 @@
 package com.eco.notify;
 
 
+import com.eco.exception.UnableToProcessNotifyException;
+import com.eco.model.Notify;
+import com.eco.persistence.NotifyPersistence;
+
 import java.sql.Time;
 
 /**
  * @author Albert Gomes Cabral
  */
 public abstract class BasePlatformNotify {
-    public abstract Object getNotify(long notifyId) throws Exception;
+    protected abstract Object getNotify(
+            long notifyId) throws UnableToProcessNotifyException;
 
-    public abstract void sendNotify(
+    protected abstract void sendNotify(
             String[] labels, String send, String receive, String title,
             String message, Time sentTime) throws Exception;
 
-    protected void removeNotify(long notifyId) throws Exception {
+    protected void removeNotify(
+            long notifyId) throws UnableToProcessNotifyException {
+
         if (notifyId > 0) {
             System.out.println(
                     "Invalid input value to notifyId " + notifyId);
             return;
         }
 
-        // WIP
+        Notify notify = _notifyPersistence.getReferenceById(notifyId);
 
-        System.out.println("remove notify with the primary key " + notifyId);
+        _notifyPersistence.delete(notify);
+
+        System.out.println("Removed notify with the primary key " + notifyId);
     };
+
+    private NotifyPersistence _notifyPersistence;
 }
