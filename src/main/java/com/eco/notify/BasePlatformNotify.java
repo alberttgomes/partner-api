@@ -1,9 +1,9 @@
-package com.eco.notify;
+package com.partner.notify;
 
 
-import com.eco.exception.UnableToProcessNotifyException;
-import com.eco.model.Notify;
-import com.eco.persistence.NotifyPersistence;
+import com.partner.exception.UnableToProcessNotifyException;
+import com.partner.model.Notify;
+import com.partner.persistence.NotifyPersistence;
 
 import java.sql.Time;
 

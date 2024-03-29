@@ -1,7 +1,7 @@
-package com.eco.persistence;
+package com.partner.persistence;
 
-import com.eco.model.Benefit;
-import com.eco.model.Plan;
+import com.partner.model.Benefit;
+import com.partner.model.Plan;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

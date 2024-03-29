@@ -1,10 +1,10 @@
-package com.eco.platform.manager;
+package com.partner.platform.manager;
 
-import com.eco.controler.PlatformManagerController;
-import com.eco.exception.UnableToProcessPlatformManagerException;
-import com.eco.model.PlatformManager;
-import com.eco.service.PlatformManagerService;
-import com.eco.util.PlatformManagerUtil;
+import com.partner.controler.PlatformManagerController;
+import com.partner.exception.UnableToProcessPlatformManagerException;
+import com.partner.model.PlatformManager;
+import com.partner.service.PlatformManagerService;
+import com.partner.util.PlatformManagerUtil;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;

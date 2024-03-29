@@ -1,6 +1,6 @@
-package com.eco.persistence;
+package com.partner.persistence;
 
-import com.eco.model.PlatformManager;
+import com.partner.model.PlatformManager;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

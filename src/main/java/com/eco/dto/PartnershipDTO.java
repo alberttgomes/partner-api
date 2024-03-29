@@ -1,4 +1,4 @@
-package com.eco.dto;
+package com.partner.dto;
 
 import lombok.Data;
 import org.springframework.data.relational.core.mapping.Embedded;

@@ -1,4 +1,4 @@
-package com.eco.model;
+package com.partner.model;
 
 import jakarta.persistence.*;
 

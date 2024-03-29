@@ -1,16 +1,16 @@
-package com.eco.impl;
+package com.partner.impl;
 
-import com.eco.exception.PlatformManagerNotFoundException;
-import com.eco.exception.UnableToProcessPlatformManagerException;
-import com.eco.exception.UnableToProcessBenefitException;
-import com.eco.exception.UnableToProcessPlanException;
-import com.eco.model.Benefit;
-import com.eco.model.Plan;
-import com.eco.model.PlatformManager;
-import com.eco.persistence.BenefitPersistence;
-import com.eco.persistence.PlanPersistence;
-import com.eco.persistence.PlatformManagerPersistence;
-import com.eco.service.PlatformManagerService;
+import com.partner.exception.PlatformManagerNotFoundException;
+import com.partner.exception.UnableToProcessPlatformManagerException;
+import com.partner.exception.UnableToProcessBenefitException;
+import com.partner.exception.UnableToProcessPlanException;
+import com.partner.model.Benefit;
+import com.partner.model.Plan;
+import com.partner.model.PlatformManager;
+import com.partner.persistence.BenefitPersistence;
+import com.partner.persistence.PlanPersistence;
+import com.partner.persistence.PlatformManagerPersistence;
+import com.partner.service.PlatformManagerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

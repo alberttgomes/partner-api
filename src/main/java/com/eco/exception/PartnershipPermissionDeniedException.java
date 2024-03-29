@@ -1,4 +1,4 @@
-package com.eco.exception;
+package com.partner.exception;
 
 /**
  * @author Albert Gomes Cabral

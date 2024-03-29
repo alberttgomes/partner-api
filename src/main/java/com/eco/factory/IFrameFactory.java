@@ -1,4 +1,4 @@
-package com.eco.factory;
+package com.partner.factory;
 
 /**
  * @author Albert Gomes Cabral

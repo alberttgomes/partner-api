@@ -1,6 +1,6 @@
-package com.eco.persistence;
+package com.partner.persistence;
 
-import com.eco.model.Partnership;
+import com.partner.model.Partnership;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;

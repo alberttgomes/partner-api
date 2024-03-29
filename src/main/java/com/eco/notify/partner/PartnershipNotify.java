@@ -1,14 +1,14 @@
-package com.eco.notify.partner;
+package com.partner.notify.partner;
 
-import com.eco.exception.UnableToProcessNotifyException;
-import com.eco.model.Notify;
-import com.eco.model.Partnership;
-import com.eco.model.PlatformManager;
-import com.eco.notify.BasePlatformNotify;
-import com.eco.persistence.NotifyPersistence;
-import com.eco.service.PartnershipNotifyService;
-import com.eco.service.PartnershipService;
-import com.eco.util.PlatformManagerUtil;
+import com.partner.exception.UnableToProcessNotifyException;
+import com.partner.model.Notify;
+import com.partner.model.Partnership;
+import com.partner.model.PlatformManager;
+import com.partner.notify.BasePlatformNotify;
+import com.partner.persistence.NotifyPersistence;
+import com.partner.service.PartnershipNotifyService;
+import com.partner.service.PartnershipService;
+import com.partner.util.PlatformManagerUtil;
 
 import java.sql.Time;
 

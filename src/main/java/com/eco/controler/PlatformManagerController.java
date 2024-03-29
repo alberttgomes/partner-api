@@ -1,12 +1,12 @@
-package com.eco.controler;
+package com.partner.controler;
 
-import com.eco.dto.BenefitDTO;
-import com.eco.dto.PlatformManagerDTO;
-import com.eco.exception.UnableToProcessPlatformManagerException;
-import com.eco.model.Benefit;
-import com.eco.model.Plan;
-import com.eco.model.PlatformManager;
-import com.eco.service.PlatformManagerService;
+import com.partner.dto.BenefitDTO;
+import com.partner.dto.PlatformManagerDTO;
+import com.partner.exception.UnableToProcessPlatformManagerException;
+import com.partner.model.Benefit;
+import com.partner.model.Plan;
+import com.partner.model.PlatformManager;
+import com.partner.service.PlatformManagerService;
 
 import org.modelmapper.ModelMapper;
 

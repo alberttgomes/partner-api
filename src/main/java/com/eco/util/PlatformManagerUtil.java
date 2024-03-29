@@ -1,6 +1,6 @@
-package com.eco.util;
+package com.partner.util;
 
-import com.eco.model.PlatformManager;
+import com.partner.model.PlatformManager;
 import com.google.gson.Gson;
 import org.springframework.stereotype.Component;
 

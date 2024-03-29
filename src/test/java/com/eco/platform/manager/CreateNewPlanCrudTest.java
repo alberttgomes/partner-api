@@ -1,10 +1,10 @@
-package com.eco.platform.manager;
+package com.partner.platform.manager;
 
-import com.eco.exception.UnableToProcessPlatformManagerException;
-import com.eco.model.Plan;
-import com.eco.model.PlatformManager;
-import com.eco.platform.constants.PlatformManagerMockTest;
-import com.eco.service.PlatformManagerService;
+import com.partner.exception.UnableToProcessPlatformManagerException;
+import com.partner.model.Plan;
+import com.partner.model.PlatformManager;
+import com.partner.platform.constants.PlatformManagerMockTest;
+import com.partner.service.PlatformManagerService;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

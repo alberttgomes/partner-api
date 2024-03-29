@@ -3,18 +3,18 @@
  * @begin - 03/2024
  */
 
-package com.eco.impl;
+package com.partner.impl;
 
-import com.eco.exception.*;
-import com.eco.model.Address;
-import com.eco.model.Partnership;
-import com.eco.model.Plan;
-import com.eco.model.PlatformManager;
-import com.eco.persistence.AddressPersistence;
-import com.eco.persistence.PartnershipPersistence;
-import com.eco.persistence.PlanPersistence;
-import com.eco.persistence.PlatformManagerPersistence;
-import com.eco.service.PartnershipService;
+import com.partner.exception.*;
+import com.partner.model.Address;
+import com.partner.model.Partnership;
+import com.partner.model.Plan;
+import com.partner.model.PlatformManager;
+import com.partner.persistence.AddressPersistence;
+import com.partner.persistence.PartnershipPersistence;
+import com.partner.persistence.PlanPersistence;
+import com.partner.persistence.PlatformManagerPersistence;
+import com.partner.service.PartnershipService;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Nullable;

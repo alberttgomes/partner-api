@@ -1,4 +1,4 @@
-package com.eco.platform.constants;
+package com.partner.platform.constants;
 
 /**
  * @author Albert Gomes Cabral

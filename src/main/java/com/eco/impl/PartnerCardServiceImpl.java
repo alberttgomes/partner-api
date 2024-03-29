@@ -1,10 +1,10 @@
-package com.eco.impl;
+package com.partner.impl;
 
-import com.eco.exception.PartnershipMemberNotFoundException;
-import com.eco.model.Partnership;
-import com.eco.model.Plan;
-import com.eco.service.PartnerCardService;
-import com.eco.service.PartnershipService;
+import com.partner.exception.PartnershipMemberNotFoundException;
+import com.partner.model.Partnership;
+import com.partner.model.Plan;
+import com.partner.service.PartnerCardService;
+import com.partner.service.PartnershipService;
 
 import org.springframework.stereotype.Component;
 

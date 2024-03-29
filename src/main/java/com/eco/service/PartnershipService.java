@@ -1,8 +1,8 @@
-package com.eco.service;
+package com.partner.service;
 
-import com.eco.exception.*;
-import com.eco.model.Address;
-import com.eco.model.Partnership;
+import com.partner.exception.*;
+import com.partner.model.Address;
+import com.partner.model.Partnership;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

@@ -1,12 +1,12 @@
-package com.eco.service;
+package com.partner.service;
 
-import com.eco.exception.PlatformManagerNotFoundException;
-import com.eco.exception.UnableToProcessPlatformManagerException;
-import com.eco.exception.UnableToProcessBenefitException;
-import com.eco.exception.UnableToProcessPlanException;
-import com.eco.model.Benefit;
-import com.eco.model.Plan;
-import com.eco.model.PlatformManager;
+import com.partner.exception.PlatformManagerNotFoundException;
+import com.partner.exception.UnableToProcessPlatformManagerException;
+import com.partner.exception.UnableToProcessBenefitException;
+import com.partner.exception.UnableToProcessPlanException;
+import com.partner.model.Benefit;
+import com.partner.model.Plan;
+import com.partner.model.PlatformManager;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;

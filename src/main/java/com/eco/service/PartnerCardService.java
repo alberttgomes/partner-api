@@ -1,7 +1,7 @@
-package com.eco.service;
+package com.partner.service;
 
-import com.eco.exception.PartnershipMemberNotFoundException;
-import com.eco.model.Partnership;
+import com.partner.exception.PartnershipMemberNotFoundException;
+import com.partner.model.Partnership;
 import org.springframework.stereotype.Service;
 
 /**

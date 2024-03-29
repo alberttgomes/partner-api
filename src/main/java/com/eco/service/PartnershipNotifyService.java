@@ -1,8 +1,8 @@
-package com.eco.service;
+package com.partner.service;
 
-import com.eco.exception.UnableToProcessNotifyException;
-import com.eco.model.Notify;
-import com.eco.model.Partnership;
+import com.partner.exception.UnableToProcessNotifyException;
+import com.partner.model.Notify;
+import com.partner.model.Partnership;
 import org.springframework.stereotype.Service;
 
 import java.sql.Time;
