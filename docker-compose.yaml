@@ -1,4 +1,12 @@
 services:
+  spring:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    image: partner-api-image
+    ports:
+      - '8080'
+      - '8000'
   elasticsearch:
     image: 'docker.elastic.co/elasticsearch/elasticsearch:7.17.10'
     environment:
@@ -11,9 +19,9 @@ services:
   mysql:
     image: 'mysql:latest'
     environment:
-      - 'MYSQL_DATABASE=mydatabase'
-      - 'MYSQL_PASSWORD=secret'
-      - 'MYSQL_ROOT_PASSWORD=verysecret'
-      - 'MYSQL_USER=myuser'
+      - 'MYSQL_DATABASE=partner'
+      - 'MYSQL_PASSWORD=MyPartnerPasswordTest'
+      - 'MYSQL_ROOT_PASSWORD=MyPartnerPasswordTest'
+      - 'MYSQL_USER=killua'
     ports:
       - '3306'
