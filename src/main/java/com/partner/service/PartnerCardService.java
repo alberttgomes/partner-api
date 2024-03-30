@@ -7,9 +7,9 @@ import org.springframework.stereotype.Service;
 /**
  * @author Albert Gomes Cabral
  */
-@Service
+@Service("_partnerCardService")
 public interface PartnerCardService {
-    public Object buildPartnershipCard(
-            Partnership partnership, Object[] rules, String avatarImagePath, String avatarFileName)
-        throws PartnershipMemberNotFoundException;
+     Object buildPartnershipCard(
+             Partnership partnership, Object[] plusInformation, String avatarImagePath,
+             String avatarFileName) throws PartnershipMemberNotFoundException;
 }
