@@ -20,8 +20,8 @@ public class PartnerCardServiceImpl implements PartnerCardService {
 
     @Override
     public Object buildPartnershipCard(
-            Partnership partnership, Object[] rules, String avatarImagePath, String avatarFileName)
-        throws PartnershipMemberNotFoundException {
+            Partnership partnership, Object[] plusInformationRule, String avatarImagePath,
+            String avatarFileName) throws PartnershipMemberNotFoundException {
 
         try {
             String categoryPlan = partnership.getPlanName();
@@ -33,14 +33,15 @@ public class PartnerCardServiceImpl implements PartnerCardService {
             }
 
             String[] keyArray = new String[] {
-                    "fullName", "avatarImage", "categoryPlan", "plusInformations"};
+                    "fullName", "avatarImage", "categoryPlan", "plusInformation"};
 
             String fullName = _validSizeNameCard(partnership.getFirstName(),
                     partnership.getMiddleName(), partnership.getLastName());
 
             Plan plan = partnership.getPlan();
 
-            Object[] customFieldsCard = _validateRulesBeforeCreateCardItems(rules);
+            Object[] customFieldsCard =
+                    _validateRulesBeforeCreateCardItems(plusInformationRule);
 
             File avatarFile = _getAvatarFileFromDirectory(
                     avatarImagePath, avatarFileName);
@@ -52,7 +53,7 @@ public class PartnerCardServiceImpl implements PartnerCardService {
             List<Map<String, Object>> partnerCardMapList =
                     _buildItemCardMapList(keyArray, valueArray);
 
-            if (partnerCardMapList != null) {
+            if (!partnerCardMapList.isEmpty()) {
                 return partnerCardMapList;
             }
         }
@@ -107,9 +108,9 @@ public class PartnerCardServiceImpl implements PartnerCardService {
         String whiteSpace = " ";
         String dot = ".";
 
-        String fullName = firstName + " " + middleName + " " + lastName;
+        String fullName = firstName + whiteSpace + middleName + whiteSpace + lastName;
 
-        char[] fullNameChar = fullName.toCharArray();
+        char[] fullNameCharArray = fullName.toCharArray();
 
         int limit = 35;
 
@@ -117,7 +118,7 @@ public class PartnerCardServiceImpl implements PartnerCardService {
 
         boolean validateIfRulesForSizeNameFinish = false;
 
-        for (char character : fullNameChar) {
+        for (char character : fullNameCharArray) {
             characterSet.add(String.valueOf(character));
 
             if (characterSet.size() >= limit) {
@@ -174,17 +175,21 @@ public class PartnerCardServiceImpl implements PartnerCardService {
         for (Object object : rules) {
             Map<String, Object> objectMap = (Map<String, Object>) object;
 
-            if (objectMap.get("birth-day-rule") != null) {
+            if (objectMap.get("birth-day-info") != null) {
                 assert false;
 
                 existentRulesArrayList.add(objectMap);
             }
-            else if (objectMap.get("active-date-rule") != null) {
-                assert false;
+            else if (objectMap.get("active-date-info") != null) {
+                boolean activeObject = (boolean) objectMap.get("active-date-info");
 
-                existentRulesArrayList.add(objectMap);
+                if (activeObject) {
+                    existentRulesArrayList.add(objectMap);
+                }
+
+                continue;
             }
-            else if (objectMap.get("remove-plan-name-rule") != null) {
+            else if (objectMap.get("remove-plan-name-info") != null) {
                 assert false;
 
                 existentRulesArrayList.add(objectMap);

@@ -7,44 +7,47 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service
+/**
+ * @author Albert Gomes Cabral
+ */
+@Service("_partnershipService")
 public interface PartnershipService {
-    public Partnership createPartnershipMember(
+    Partnership createPartnershipMember(
             int age, String birthDate, String email, String firstName,
             String middleName, String lastName, String planName,
             String password, String phone, int status, Address address)
         throws CreatePartnershipMemberException;
 
-    public void deletePartnershipMember(long partnershipId) throws Exception;
+    void deletePartnershipMember(long partnershipId) throws Exception;
 
-    public Partnership getPartnershipById(
+    Partnership getPartnershipById(
             long partnershipId) throws PartnershipMemberNotFoundException;
 
-    public List<Partnership> getPartnershipIsActiveList(
+    List<Partnership> getPartnershipIsActiveList(
             String userNameAdmin, String password, boolean isActive)
         throws PartnershipPermissionDeniedException;
 
-    public List<Partnership> getPartnershipAllList(
+    List<Partnership> getPartnershipAllList(
             String userNameAdmin, String password) throws PartnershipPermissionDeniedException;
 
-    public boolean isActive(
+    boolean isActive(
             long partnershipId, String userNameAdmin, boolean hasPermission)
         throws PartnershipMemberNotFoundException;
 
-    public void updatePartnershipMemberPlan(
+    void updatePartnershipMemberPlan(
             long partnershipId, String actualPlan, String newPlan)
         throws PartnershipMemberNotFoundException;
 
-    public Partnership updatePartnershipMember(
+    Partnership updatePartnershipMember(
             long partnershipId, Partnership partnership)
         throws UpdatePartnershipMemberException;
 
-    public Address updateParnershipAddress(
+    Address updateParnershipAddress(
             String city, String country, String district, long partnershipPk,
             long addressId, int number, String street)
         throws UpdatePartnershipAddressException;
 
-    public boolean updatePartnershipPassword(
+    boolean updatePartnershipPassword(
             String email, String password, long partnershipPk)
         throws PartnershipMemberNotFoundException;
 }
