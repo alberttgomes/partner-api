@@ -34,8 +34,9 @@ public class PartnershipNotify extends BasePlatformNotify
             List<Notify> notifyList = newPartnershipInstance.getNotifyList();
 
             if (notifyList.isEmpty()) {
-                System.out.println("Wasn't found notifications to the partner "
-                        + partnership.getFirstName());
+                System.out.println(
+                        "Wasn't found notifications to the partner " +
+                                partnership.getFirstName());
 
                 return new ArrayList<>();
             }
@@ -44,7 +45,7 @@ public class PartnershipNotify extends BasePlatformNotify
         }
         catch (Exception notifyException) {
             throw new UnableToProcessNotifyException(
-                    "unable to get notifications ", notifyException);
+                    "Unable to get notifications ", notifyException);
         }
     }
 

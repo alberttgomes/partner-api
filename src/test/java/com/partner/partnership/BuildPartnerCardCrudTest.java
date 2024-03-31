@@ -50,7 +50,7 @@ public class BuildPartnerCardCrudTest {
     private Partnership _createPartnershipMock() {
         return _partnershipService.createPartnershipMember(
                 28, "19/09/1995", "albert@entropy.com", "Albert",
-                "Gomes", "Cabral", "gold", "MyPassword",
+                "Gomez", "Cabral", "gold", "MyPassword",
                 "(81) 985563743", 1, _createPartnershipAddressMock());
     }
 

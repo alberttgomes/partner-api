@@ -6,6 +6,7 @@ import com.partner.model.Plan;
 import com.partner.service.PartnerCardService;
 import com.partner.service.PartnershipService;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
@@ -24,12 +25,11 @@ public class PartnerCardServiceImpl implements PartnerCardService {
             String avatarFileName) throws PartnershipMemberNotFoundException {
 
         try {
-            String categoryPlan = partnership.getPlanName();
+            Plan partnershipPlan = partnership.getPlan();
 
-            if (categoryPlan.isBlank() || categoryPlan.isEmpty()) {
+            if (!partnershipPlan.getStatusPlan()) {
                 throw new RuntimeException(
-                        "Partner's plan can't be empty or blank." +
-                                " Probably this partner haven't an active plan.");
+                        "The plan name " + partnershipPlan.getPlanName() + " is expired.");
             }
 
             String[] keyArray = new String[] {
@@ -38,8 +38,6 @@ public class PartnerCardServiceImpl implements PartnerCardService {
             String fullName = _validSizeNameCard(partnership.getFirstName(),
                     partnership.getMiddleName(), partnership.getLastName());
 
-            Plan plan = partnership.getPlan();
-
             Object[] customFieldsCard =
                     _validateRulesBeforeCreateCardItems(plusInformationRule);
 
@@ -47,8 +45,8 @@ public class PartnerCardServiceImpl implements PartnerCardService {
                     avatarImagePath, avatarFileName);
 
             Object[] valueArray = new Object[] {
-                    fullName, avatarFile, plan.getPlanName(),
-                    customFieldsCard != null ? customFieldsCard : _WITHOUT_CUSTOMIZATION};
+                    fullName, avatarFile, partnershipPlan.getPlanName(),
+                    customFieldsCard.length > 0 ? customFieldsCard : _WITHOUT_CUSTOMIZATION};
 
             List<Map<String, Object>> partnerCardMapList =
                     _buildItemCardMapList(keyArray, valueArray);
@@ -170,36 +168,40 @@ public class PartnerCardServiceImpl implements PartnerCardService {
 
     private Object[] _validateRulesBeforeCreateCardItems(Object[] rules) {
         List<Object> existentRulesArrayList = new ArrayList<>();
-        Object[] result = new Object[0];
 
         for (Object object : rules) {
             Map<String, Object> objectMap = (Map<String, Object>) object;
 
             if (objectMap.get("birth-day-info") != null) {
-                assert false;
+                boolean ruleActive = (boolean) objectMap.get("birth-day-info");
 
-                existentRulesArrayList.add(objectMap);
-            }
-            else if (objectMap.get("active-date-info") != null) {
-                boolean activeObject = (boolean) objectMap.get("active-date-info");
-
-                if (activeObject) {
+                if (ruleActive) {
                     existentRulesArrayList.add(objectMap);
                 }
+            }
+            else if (objectMap.get("active-date-info") != null) {
+                 boolean ruleActive = (boolean) objectMap.get("active-date-info");
 
-                continue;
+                if (ruleActive) {
+                    existentRulesArrayList.add(objectMap);
+                }
             }
             else if (objectMap.get("remove-plan-name-info") != null) {
-                assert false;
+                boolean ruleActive = (boolean) objectMap.get("remove-plan-name-info");
 
-                existentRulesArrayList.add(objectMap);
+                if (ruleActive) {
+                    existentRulesArrayList.add(objectMap);
+                }
             }
-
-            result = new List[]{existentRulesArrayList};
         }
 
-        return result;
+        return new List[]{existentRulesArrayList};
     };
+
+    @Autowired
+    public void serPartnershipService(PartnershipService partnershipService) {
+        this._partnershipService = partnershipService;
+    }
 
     private PartnershipService _partnershipService;
 }
